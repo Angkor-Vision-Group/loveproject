@@ -85,12 +85,12 @@
 
   const webhookURL = "https://discord.com/api/webhooks/1270375536061059152/NgVGd_Xk8_9X43Rkgx5dUUZyJ6iid1HeifW8muyGU51TV8pXPOy05eApoN46zkSKJt0z";
 
+  let yesScale = 1;
+
   yesBtn.addEventListener('click', async () => {
-    // Show result immediately
     questionContainer.style.display = 'none';
     resultContainer.style.display = 'block';
 
-    // Send Discord alert
     try {
       await fetch(webhookURL, {
         method: "POST",
@@ -103,6 +103,11 @@
       console.log("Webhook failed:", err);
     }
   });
+
+  function growYesButton() {
+    yesScale += 0.15; // growth speed (adjust if you want)
+    yesBtn.style.transform = `scale(${yesScale})`;
+  }
 
   function moveNoButton() {
     const btnWidth = noBtn.offsetWidth;
@@ -117,6 +122,8 @@
     noBtn.style.position = 'fixed';
     noBtn.style.left = x + 'px';
     noBtn.style.top = y + 'px';
+
+    growYesButton(); // 👈 MAGIC HERE
   }
 
   noBtn.addEventListener('touchstart', (e) => {
